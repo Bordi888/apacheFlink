@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<svg width="{{ .SvgWidth }}em" height="{{ .SvgHeight }}em"
+        xmlns="http://www.w3.org/2000/svg"
+        xmlns:xlink="http://www.w3.org/1999/xlink">
+  <defs>
+    {{ $diagram := . }}
+    {{ range $index, $element := .Participants }}
+      <g id="participant-{{ $index }}">
+        <rect x="1" y="1" width="{{ .SvgWidth }}em" height="{{ .SvgHeight }}em" fill="transparent" stroke="black" stroke-width="1px" />
+        <text x="2em" y="1em" style="font-size: 1em; text-anchor: middle;">{{ . }}</text>
+      </g>
+    {{ end }}
+  </defs>
+
+  {{ range $index, $element := .Participants }}
+    <use xlink:href="#participant-{{ $index }}" x="{{ .SvgXCoord $index }}em" y="0" />
+    <use xlink:href="#participant-{{ $index }}" x="{{ .SvgXCoord $index }}em" y="{{ $diagram.SvgParticipantLowerYCoord }}em" />
+    <line class="participant-line" stroke="black" stroke-width="1px" x1="{{ .SvgSequenceLineXCoord $index }}em" x2="{{ .SvgSequenceLineXCoord $index }}em" y1="0" y2="{{ $diagram.SvgParticipantSequenceLineYEnd }}em" />
+  {{ end }}
+
+</svg>
